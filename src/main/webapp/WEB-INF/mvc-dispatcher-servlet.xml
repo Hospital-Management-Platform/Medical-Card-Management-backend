@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+  						http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+  						http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+  						http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+	<context:component-scan base-package="com.itwine.mcm.controller, com.itwine.mcm.dao, com.itwine.mcm.daoimpl, com.itwine.mcm.services" />
+	<mvc:annotation-driven/>
+
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/mcm" />
+		<property name="username" value="mcm" />
+		<property name="password" value="mcm123" />
+	</bean>
+
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="annotatedClasses">
+			<list>				
+				<value>com.itwine.mcm.model.InstitutionProfile</value>
+				<value>com.itwine.mcm.model.Hospital</value>
+				<value>com.itwine.mcm.model.BusinessEntity</value>
+				<value>com.itwine.mcm.model.Doctors</value>
+				<value>com.itwine.mcm.model.Specialization</value>
+				<value>com.itwine.mcm.model.CourseCategory</value>
+				<value>com.itwine.mcm.model.BusinessCategory</value>
+				<value>com.itwine.mcm.model.BankDetails</value>
+				<value>com.itwine.mcm.model.Attribute</value>
+				<value>com.itwine.mcm.model.StudentProfile</value>
+				<value>com.itwine.mcm.model.Plans</value>
+				<value>com.itwine.mcm.model.CourseProfile</value>
+			    <value>com.itwine.mcm.model.CourseOffered</value>
+			    <value>com.itwine.mcm.model.Membership</value>
+			    <value>com.itwine.mcm.model.Plan</value>
+			    <value>com.itwine.mcm.model.StudentStatus</value> 
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="smtp.gmail.com" />
+        <property name="port" value="587" />
+        <property name="username" value="mvmohan19@gmail.com" />
+        <property name="password" value="Diyan@786" />
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.transport.protocol">smtp</prop>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+            </props>
+        </property>
+    </bean>
+     
+     
+    <bean id="jobLauncher"
+		class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+		<property name="jobRepository" ref="jobRepository" />
+	</bean>
+	
+	<bean id="transactionManager"
+		class="org.springframework.batch.support.transaction.ResourcelessTransactionManager" />
+		
+		
+	<bean id="jobRepository"
+		class="org.springframework.batch.core.repository.support.JobRepositoryFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="transactionManager" ref="transactionManager" />
+		<property name="databaseType" value="mysql" />
+	</bean>
+
+	<bean id="txManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<bean id="persistenceExceptionTranslationPostProcessor"	class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+	
+	<bean id="institutionProfileDao" class="com.itwine.mcm.daoimpl.InstitutionProfileDaoImpl"></bean>
+	<bean id="HospitalDao" class="com.itwine.mcm.daoimpl.HospitalDaoImpl"></bean>
+	<bean id="DoctorsDao" class="com.itwine.mcm.daoimpl.DoctorsDaoImpl"></bean>
+	<bean id="SpecializationDao" class="com.itwine.mcm.daoimpl.SpecializationDaoImpl"></bean>
+	<bean id="BusinessEntityDao" class="com.itwine.mcm.daoimpl.BusinessEntityDaoImpl"></bean>
+	<bean id="CourseCategoryDao" class="com.itwine.mcm.daoimpl.CourseCategoryDaoImpl"></bean>
+	<bean id="businessCategoryDao" class="com.itwine.mcm.daoimpl.BusinessCategoryDaoImpl"></bean>
+	<bean id="bankDetailsDao" class="com.itwine.mcm.daoimpl.BankDetailsDaoImpl"></bean>
+	<bean id="attributeDao" class="com.itwine.mcm.daoimpl.AttributeDaoImpl"></bean>
+	<bean id="dataServices" class="com.itwine.mcm.services.DataServicesImpl"></bean>
+	<bean id="StudentProfileDao" class="com.itwine.mcm.daoimpl.StudentProfileDaoImpl"></bean>	
+	<bean id="StudentProfileService" class="com.itwine.mcm.services.StudentProfileServiceImpl"></bean>
+	<bean id="PlansDao" class="com.itwine.mcm.daoimpl.PlansDaoImpl"></bean>
+	<bean id="PlansService" class="com.itwine.mcm.services.PlansServiceImpl"></bean>
+	<bean id="CourseProfileDao" class="com.itwine.mcm.daoimpl.CourseProfileDaoImpl"></bean>
+	<bean id="CourseProfileService" class="com.itwine.mcm.services.CourseProfileServiceImpl"></bean>
+	<bean id="CourseOfferedDao" class="com.itwine.mcm.daoimpl.CourseOfferedDaoImpl"></bean>
+	<bean id="CourseOfferedService" class="com.itwine.mcm.services.CourseOfferedServiceImpl"></bean>
+	<bean id="MembershipDao" class="com.itwine.mcm.daoimpl.MembershipDaoImpl"></bean>
+	<bean id="MembershipService" class="com.itwine.mcm.services.MembershipServiceImpl"></bean>
+	<bean id="PlanDao" class="com.itwine.mcm.daoimpl.PlanDaoImpl"></bean>
+	<bean id="PlanService" class="com.itwine.mcm.services.PlanServiceImpl"></bean>
+	<bean id="StudentStatusDao" class="com.itwine.mcm.daoimpl.StudentStatusDaoImpl"></bean>	
+	<bean id="StudentStatusService" class="com.itwine.mcm.services.StudentStatusServiceImpl"></bean>
+	
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/pages/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="1000000000" />
+	</bean>
+
+</beans>
