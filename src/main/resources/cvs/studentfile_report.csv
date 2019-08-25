@@ -1,0 +1,6 @@
+"stdName","gender","addressOne","addressTwo","city","course","zipcode","countryName","parentPhone","stdEmail","stdAdmissionNumber","institutionName","state","plan","courseCategory","status"
+"Mohan","Male","Vijaynagar","Jpnagar","Banglore","BE",560078,"India",9876543210,"mohan@gmail.com",101,,"Karnataka",,"PostGraduate","Active"
+"suneel","Male","Vijaynagar","Jpnagar","Banglore","BE",560079,"India",8898989876,"mohan@gmail.com",102,,"Karnataka",,"PostGraduate","Active"
+"ABHI","Male","Vijaynagar","Jpnagar","Banglore","BE",560080,"India",8898989877,"mohan@gmail.com",103,,"Karnataka",,"PostGraduate","Active"
+"LATHESH","Male","Vijaynagar","Jpnagar","Banglore","BE",560081,"India",8898989878,"mohan@gmail.com",104,,"Karnataka",,"PostGraduate","Active"
+"PREM","Male","Vijaynagar","Jpnagar","Banglore","BE",560082,"India",8898989879,"mohan@gmail.com",105,,"Karnataka",,"PostGraduate","Active"
